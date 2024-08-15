@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +16,7 @@ import java.util.List;
  */
 @Slf4j // 加这个注解之后 可以直接使用 log来记录日志
 @RestController
+//@CrossOrigin
 public class DeptController {
 
   /**
@@ -28,9 +26,11 @@ public class DeptController {
   @Autowired
   private DeptService deptService;
 
+
   // 使用logback 记录日志对象
   //private static Logger log = LoggerFactory.getLogger(DeptController.class);
   //@RequestMapping(value = "/departments",method = RequestMethod.GET) // 指定请求方式为GET
+  // TODO: 查询部门数据
   @GetMapping("/departments")
   public Result list() {
     log.info("查询全部部门数据");
@@ -40,4 +40,15 @@ public class DeptController {
     System.out.println(detpList);
     return Result.success(detpList);
   }
+
+  // TODO: 删除部门数据
+  @DeleteMapping("/departments/{id}")
+  public Result delete(@PathVariable Integer id) {
+    log.info("根据id删除部门：{}",id);
+    // 调用service删除部门
+    deptService.delete(id);
+    return Result.success();
+  }
+
+
 }
